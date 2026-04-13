@@ -59,13 +59,6 @@ export default function LoginScreen() {
             </View>
           )}
 
-          {/* Success Message - saat isLoading */}
-          {isLoading && !error && !validationError && (
-            <View className="flex items-center w-full p-4 bg-green-100 rounded-lg">
-              <Text className="font-medium text-green-700">Logging in...</Text>
-            </View>
-          )}
-
           {/* Form */}
           <View className="w-full">
             <AuthInput
