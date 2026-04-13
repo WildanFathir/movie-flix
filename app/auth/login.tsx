@@ -54,14 +54,14 @@ export default function LoginScreen() {
         <View className="flex flex-col items-center w-full gap-6">
           {/* Error Messages */}
           {Boolean(error || validationError) && (
-            <View className="flex items-center w-full p-4 mb-4 bg-red-100 rounded-lg">
+            <View className="flex items-center w-full p-4 bg-red-100 rounded-lg">
               <Text className="font-medium text-red-700">{`${error || validationError}`}</Text>
             </View>
           )}
 
           {/* Success Message - saat isLoading */}
           {isLoading && !error && !validationError && (
-            <View className="p-4 mb-4 bg-green-100 rounded-lg">
+            <View className="p-4 bg-green-100 rounded-lg">
               <Text className="font-medium text-green-700">Logging in...</Text>
             </View>
           )}
