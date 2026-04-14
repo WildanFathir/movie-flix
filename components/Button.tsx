@@ -22,7 +22,7 @@ export function Button({
   variant = 'primary',
 }: ButtonProps) {
   const variantClasses = {
-    primary: 'bg-blue-600',
+    primary: 'bg-[#faab43]',
     secondary: 'bg-gray-400',
     danger: 'bg-red-600',
   };
@@ -38,7 +38,7 @@ export function Button({
       }`}
     >
       {isLoading && <ActivityIndicator color="white" size="small" style={{ marginRight: 8 }} />}
-      <Text className="text-white font-semibold text-base">{title}</Text>
+      <Text className="text-base font-semibold text-white">{title}</Text>
     </TouchableOpacity>
   );
 }
