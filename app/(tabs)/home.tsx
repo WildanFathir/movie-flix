@@ -1,5 +1,5 @@
 import { getImageUrl } from '@/api/tmdb';
-import { useMovies } from '@/hooks/useMovies';
+import { useMovieStore } from '@/store/movieStore';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
@@ -14,7 +14,7 @@ import {
 
 const HomeScreen = () => {
   const router = useRouter();
-  const { trendingMovies, isLoadingTrending, fetchTrendingMovies, error } = useMovies();
+  const { trendingMovies, isLoadingTrending, fetchTrendingMovies, error } = useMovieStore();
 
   useEffect(() => {
     // Fetch trending movies saat screen pertama kali load
