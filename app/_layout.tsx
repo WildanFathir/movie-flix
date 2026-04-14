@@ -9,7 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 // Keep splash screen visible
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+const RootLayout = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useAuthStore((state) => state.user);
   const [appIsReady, setAppIsReady] = useState(false);
@@ -77,4 +77,6 @@ export default function RootLayout() {
       )}
     </GestureHandlerRootView>
   );
-}
+};
+
+export default RootLayout;

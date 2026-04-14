@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-export default function LoginScreen() {
+const LoginScreen = () => {
   const router = useRouter();
   const { login, error, clearError, isAuthenticated } = useAuth();
   const { validationError, clearValidationError } = useAuthValidation();
@@ -103,4 +103,6 @@ export default function LoginScreen() {
       </View>
     </ScrollView>
   );
-}
+};
+
+export default LoginScreen;

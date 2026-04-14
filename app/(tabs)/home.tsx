@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const router = useRouter();
   const { trendingMovies, isLoadingTrending, fetchTrendingMovies, error } = useMovies();
 
@@ -98,4 +98,6 @@ export default function HomeScreen() {
       {content}
     </View>
   );
-}
+};
+
+export default HomeScreen;

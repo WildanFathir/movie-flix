@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-export default function RegisterScreen() {
+const RegisterScreen = () => {
   const router = useRouter();
   const { register, error, isAuthenticated, clearError } = useAuth();
   const { validationError, clearValidationError, validateRegisterForm } = useAuthValidation();
@@ -116,4 +116,6 @@ export default function RegisterScreen() {
       </View>
     </ScrollView>
   );
-}
+};
+
+export default RegisterScreen;
