@@ -11,6 +11,16 @@ export interface Movie {
   genres?: Genre[];
 }
 
+export interface MovieVideo {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  type: string;
+  official: boolean;
+  published_at: string;
+}
+
 export interface Genre {
   id: number;
   name: string;
@@ -26,6 +36,7 @@ export interface MovieDetail extends Movie {
   production_countries: ProductionCountry[];
   spoken_languages: Language[];
   credits: Credits;
+  videos: MovieVideo[];
 }
 
 export interface ProductionCompany {
