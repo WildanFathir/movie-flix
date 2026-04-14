@@ -14,18 +14,46 @@ import {
 
 const HomeScreen = () => {
   const router = useRouter();
-  const { trendingMovies, isLoadingTrending, fetchTrendingMovies, error } = useMovieStore();
+  let footer = null;
+  let content = null;
+
+  const {
+    trendingMovies,
+    isLoadingTrending,
+    isLoadingMoreTrending,
+    trendingPage,
+    trendingTotalPages,
+    fetchTrendingMovies,
+    loadMoreTrendingMovies,
+    error,
+  } = useMovieStore();
 
   useEffect(() => {
-    // Fetch trending movies saat screen pertama kali load
-    fetchTrendingMovies();
+    fetchTrendingMovies({ page: 1, append: false });
   }, [fetchTrendingMovies]);
 
   const handleRefresh = () => {
-    fetchTrendingMovies();
+    fetchTrendingMovies({ page: 1, append: false });
   };
 
-  let content = null;
+  const handleLoadMore = () => {
+    loadMoreTrendingMovies();
+  };
+
+  if (isLoadingMoreTrending) {
+    footer = (
+      <View className="items-center py-4">
+        <ActivityIndicator size="small" color="#3B82F6" />
+        <Text className="mt-2 text-xs text-gray-500">Loading more...</Text>
+      </View>
+    );
+  } else if (trendingPage >= trendingTotalPages && trendingMovies.length > 0) {
+    footer = (
+      <View className="items-center py-4">
+        <Text className="text-xs text-gray-400">No more movies</Text>
+      </View>
+    );
+  }
 
   if (isLoadingTrending) {
     content = (
@@ -83,6 +111,9 @@ const HomeScreen = () => {
           </TouchableOpacity>
         )}
         refreshControl={<RefreshControl refreshing={isLoadingTrending} onRefresh={handleRefresh} />}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.4}
+        ListFooterComponent={footer}
       />
     );
   }
