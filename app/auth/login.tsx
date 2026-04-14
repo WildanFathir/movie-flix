@@ -1,14 +1,14 @@
 import { AuthInput } from '@/components/AuthInput';
 import { Button } from '@/components/Button';
-import { useAuth } from '@/hooks/useAuth';
 import { useAuthValidation } from '@/hooks/useAuthValidation';
+import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 const LoginScreen = () => {
   const router = useRouter();
-  const { login, error, clearError, isAuthenticated } = useAuth();
+  const { login, error, clearError, isAuthenticated } = useAuthStore();
   const { validationError, clearValidationError } = useAuthValidation();
 
   const [email, setEmail] = useState('');

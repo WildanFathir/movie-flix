@@ -1,14 +1,14 @@
 import { AuthInput } from '@/components/AuthInput';
 import { Button } from '@/components/Button';
-import { useAuth } from '@/hooks/useAuth';
 import { useAuthValidation } from '@/hooks/useAuthValidation';
+import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 const RegisterScreen = () => {
   const router = useRouter();
-  const { register, error, isAuthenticated, clearError } = useAuth();
+  const { register, error, isAuthenticated, clearError } = useAuthStore();
   const { validationError, clearValidationError, validateRegisterForm } = useAuthValidation();
 
   const [name, setName] = useState('');
