@@ -1,19 +1,9 @@
-import { getImageUrl } from '@/api/tmdb';
+import MovieList from '@/components/MovieList';
 import { useMovieStore } from '@/store/movieStore';
-import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
-import React, { useEffect } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { useEffect } from 'react';
+import { ActivityIndicator, FlatList, RefreshControl, Text, View } from 'react-native';
 
 const HomeScreen = () => {
-  const router = useRouter();
   let footer = null;
   let content = null;
 
@@ -73,43 +63,7 @@ const HomeScreen = () => {
       <FlatList
         data={trendingMovies}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            className="flex-row items-center gap-3 p-4 border-b border-gray-200"
-            activeOpacity={0.75}
-            onPress={() => router.push(`/movie/${item.id}`)}
-          >
-            <View className="w-20 overflow-hidden bg-gray-200 rounded-lg h-28">
-              {item.poster_path ? (
-                <Image
-                  source={getImageUrl(item.poster_path, 'small') ?? undefined}
-                  style={{ width: '100%', height: '100%' }}
-                  contentFit="cover"
-                  transition={150}
-                />
-              ) : (
-                <View className="items-center justify-center flex-1">
-                  <Text className="text-xs text-gray-500">No Image</Text>
-                </View>
-              )}
-            </View>
-
-            <View className="flex items-start flex-1 gap-2">
-              <Text className="text-lg font-bold" numberOfLines={1}>
-                {item.title}
-              </Text>
-              <Text className="text-sm text-gray-600" numberOfLines={3}>
-                {item.overview}
-              </Text>
-              <View className="flex-row justify-between w-full">
-                <Text className="text-xs text-gray-500">
-                  Rating: {item.vote_average.toFixed(1)}/10
-                </Text>
-                <Text className="text-xs text-gray-500">{item.release_date}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
+        renderItem={({ item }) => <MovieList movies={item} />}
         refreshControl={<RefreshControl refreshing={isLoadingTrending} onRefresh={handleRefresh} />}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.4}
