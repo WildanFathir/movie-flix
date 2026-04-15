@@ -33,7 +33,7 @@ export function Button({
     <TouchableOpacity
       onPress={onPress}
       disabled={isDisabledState}
-      className={`${variantClasses[variant]} rounded-lg py-3 px-4 items-center flex-row justify-center ${
+      className={`${variantClasses[variant]} rounded-lg py-3 px-4 items-center flex-row justify-center w-full ${
         isDisabledState ? 'opacity-50' : ''
       }`}
     >
