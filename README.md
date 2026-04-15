@@ -1,50 +1,178 @@
-# Welcome to your Expo app 👋
+# React Native Learn - Movie App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<p align="left">
+   <img alt="Expo" src="https://img.shields.io/badge/Expo-SDK_54-000020?logo=expo&logoColor=white" />
+   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" />
+   <img alt="Zustand" src="https://img.shields.io/badge/Zustand-State_Management-7A4B2A" />
+   <img alt="NativeWind" src="https://img.shields.io/badge/NativeWind-v4-0EA5E9" />
+</p>
 
-## Get started
+Learning project for building a modern movie app using React Native + Expo Router.
 
-1. Install dependencies
+This repository is my playground to learn core React Native concepts in a real project: routing, state management, API integration, list performance, reusable components, and clean project architecture.
 
-   ```bash
-   npm install
-   ```
+## Preview
 
-2. Start the app
+- Auth flow (Login/Register)
+- Bottom tab navigation
+- Home screen with infinite scroll
+- Search movies
+- Favorites list
+- Movie detail screen + trailer launch
 
-   ```bash
-   npx expo start
-   ```
+## App Screenshots and GIF Preview
 
-In the output, you'll find options to open the app in a
+Section ini sudah disiapkan untuk preview GitHub. Tinggal tambahkan file screenshot/GIF kamu, lalu replace nama file di bawah.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Suggested folder:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```text
+docs/media/
+   login.png
+   home.png
+   search.png
+   detail.png
+   app-flow.gif
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Template yang bisa langsung dipakai:
 
-## Learn more
+```md
+## App Screenshots and GIF Preview
 
-To learn more about developing your project with Expo, look at the following resources:
+<p align="center">
+   <img src="docs/media/app-flow.gif" alt="App Flow" width="280" />
+</p>
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+| Login                            | Home                           |
+| -------------------------------- | ------------------------------ |
+| ![Login](assets/media/login.jpg) | ![Home](assets/media/home.jpg) |
 
-## Join the community
+| Search                             | Detail                             |
+| ---------------------------------- | ---------------------------------- |
+| ![Search](assets/media/search.jpg) | ![Detail](assets/media/detail.jpg) |
+```
 
-Join our community of developers creating universal apps.
+Contoh placeholder saat ini:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+<p align="center">
+   <img src="assets/images/splash-icon.png" alt="Placeholder Preview" width="120" />
+</p>
+
+## Tech Stack
+
+- React Native + Expo
+- Expo Router (file-based routing)
+- TypeScript
+- Zustand (state management)
+- NativeWind (utility-first styling)
+- TMDB Public API
+- AsyncStorage (persist favorites)
+
+## Project Goals
+
+- Learn React Native fundamentals in production-like structure
+- Practice clean architecture separation: API client, endpoints, services, store, UI
+- Understand list rendering performance (`FlatList`, pagination, infinite scroll)
+- Build reusable validation + auth flows
+
+## Folder Structure
+
+```text
+app/
+   _layout.tsx
+   auth/
+   (tabs)/
+   movie/
+
+api/
+   client.ts
+   endpoints.ts
+   tmdb.ts
+   user.ts
+
+store/
+   authStore.ts
+   movieStore.ts
+
+types/
+   auth.ts
+   movie.ts
+
+utils/
+   validators/
+
+components/
+docs/
+```
+
+## Getting Started
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Setup environment variables
+
+Create `.env` (or copy from `.env.example`) and fill with your TMDB key:
+
+```env
+EXPO_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+EXPO_PUBLIC_TMDB_BASE_URL=https://api.themoviedb.org/3
+EXPO_PUBLIC_TMDB_IMAGE_URL=https://image.tmdb.org/t/p/w500
+```
+
+### 3. Run app
+
+```bash
+npx expo start -c
+```
+
+Useful scripts:
+
+```bash
+npm run android
+npm run ios
+npm run web
+npm run lint
+```
+
+## Learning Notes
+
+- `ScrollView` for small static content
+- `FlatList` for data list (virtualized, better performance)
+- `VirtualizedList` is low-level base list behind `FlatList`
+
+Extra notes available in:
+
+- `docs/react-native-components-guide.md`
+- `docs/LEARNING_GUIDE.md`
+
+## Current Features
+
+- [x] Authentication UI + local auth logic
+- [x] Home movie list from TMDB
+- [x] Infinite scroll pagination (trending movies)
+- [x] Search movies
+- [x] Movie detail screen
+- [x] Trailer link open in browser
+- [x] Favorites state + persistence
+
+## Next Improvement Ideas
+
+- [ ] Skeleton loading for lists and detail page
+- [ ] Better error boundary and retry UI
+- [ ] Unit tests for store and validators
+- [ ] Pull-to-refresh for more screens
+- [ ] Better accessibility labels
+
+## Credits
+
+- API: [The Movie Database (TMDB)](https://www.themoviedb.org/)
+- Framework: [Expo](https://expo.dev/)
+
+---
+
+If you have suggestions, feel free to open an issue or PR.
