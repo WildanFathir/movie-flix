@@ -1,11 +1,20 @@
 import { getImageUrl } from '@/api/tmdb';
+import { useMovieStore } from '@/store/movieStore';
 import type { Movie } from '@/types/movie';
+import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-const MovieList = ({ movies }: { movies: Movie }) => {
+const MovieList = ({
+  movies,
+  withRemoveButton = false,
+}: {
+  movies: Movie;
+  withRemoveButton?: boolean;
+}) => {
   const router = useRouter();
+  const { removeFavorite } = useMovieStore();
 
   return (
     <TouchableOpacity
@@ -29,9 +38,16 @@ const MovieList = ({ movies }: { movies: Movie }) => {
       </View>
 
       <View className="flex items-start flex-1 gap-2">
-        <Text className="text-lg font-bold" numberOfLines={1}>
-          {movies.title}
-        </Text>
+        <View className="flex-row items-center justify-between w-full">
+          <Text className="text-lg font-bold" numberOfLines={1}>
+            {movies.title}
+          </Text>
+          {withRemoveButton && (
+            <TouchableOpacity onPress={() => removeFavorite(movies.id)}>
+              <Ionicons name="close-circle" size={20} color="#EF4444" />
+            </TouchableOpacity>
+          )}
+        </View>
         <Text className="text-sm text-gray-600" numberOfLines={3}>
           {movies.overview}
         </Text>
