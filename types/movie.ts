@@ -85,18 +85,43 @@ export interface PaginatedResponse<T> {
   total_results: number;
 }
 
-export interface SearchResult {
-  id: number;
-  title?: string;
-  name?: string;
-  poster_path: string | null;
-  overview: string;
-  release_date?: string;
-  first_air_date?: string;
-}
-
 export interface UserMovie extends Movie {
   savedAt: number;
   rating?: number;
   notes?: string;
+}
+
+export interface MovieState {
+  // Data
+  trendingMovies: Movie[];
+  trendingPage: number;
+  trendingTotalPages: number;
+  popularMovies: Movie[];
+  searchResults: Movie[];
+  favorites: UserMovie[]; // Movies yang di-save user
+  movieDetail: Record<number, any>; // Cache detail movie by ID
+
+  // Loading & error states
+  isLoadingTrending: boolean;
+  isLoadingMoreTrending: boolean;
+  isLoadingPopular: boolean;
+  isLoadingSearch: boolean;
+  isLoadingDetail: Record<number, boolean>;
+  error: string | null;
+
+  // Actions
+  fetchTrendingMovies: (options?: {
+    timeWindow?: 'day' | 'week';
+    page?: number;
+    append?: boolean;
+  }) => Promise<void>;
+  loadMoreTrendingMovies: (timeWindow?: 'day' | 'week') => Promise<void>;
+  fetchPopularMovies: (page?: number) => Promise<void>;
+  searchMovies: (query: string) => Promise<void>;
+  fetchMovieDetail: (movieId: number) => Promise<void>;
+  addFavorite: (movie: Movie) => void;
+  removeFavorite: (movieId: number) => void;
+  isFavorite: (movieId: number) => boolean;
+  clearError: () => void;
+  clearSearchResults: () => void;
 }
