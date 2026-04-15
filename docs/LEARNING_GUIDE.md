@@ -1,255 +1,146 @@
-# 🎬 Movie App Learning Guide
+# Movie App Learning Guide
 
-Selamat! Kamu sudah setup movie app dengan best practice React Native Expo. Berikut breakdown lengkap dari yang sudah dibuat:
+Dokumen ini menjelaskan alur belajar dan arsitektur project React Native ini secara praktis.
 
----
+## Tujuan Project
 
-## 📁 Project Structure
+- Belajar React Native lewat project real, bukan hanya todo app sederhana.
+- Paham alur data dari UI ke API dan kembali ke UI.
+- Latihan struktur code yang scalable sejak awal.
 
-```
+## Arsitektur Singkat
+
+Alur utama aplikasi:
+
+1. Screen memanggil action dari store.
+2. Store memanggil service API.
+3. Service API menggunakan endpoint + client generic.
+4. Response disimpan di store.
+5. UI otomatis update dari state terbaru.
+
+## Struktur Folder (Current)
+
+```text
 app/
-├── _layout.tsx              ← ROOT LAYOUT (navigation logic)
-├── index.tsx                ← dummy (tidak dipakai)
-├── auth/
-│   ├── _layout.tsx          ← Auth stack layout
-│   ├── login.tsx            ← Login screen
-│   └── register.tsx         ← Register screen
-└── (tabs)/
-    ├── _layout.tsx          ← Tab navigation
-    ├── home.tsx             ← Home screen (trending movies)
-    ├── search.tsx           ← Search movies
-    ├── favorites.tsx        ← Saved favorite movies
-    └── profile.tsx          ← User profile & logout
-
-store/
-├── authStore.ts             ← Zustand auth state management
-└── movieStore.ts            ← Zustand movie state management
+  _layout.tsx
+  auth/
+    _layout.tsx
+    login.tsx
+    register.tsx
+  (tabs)/
+    _layout.tsx
+    home.tsx
+    search.tsx
+    favorites.tsx
+    profile.tsx
+  movie/
+    [id].tsx
 
 api/
-├── types.ts                 ← TypeScript types untuk TMDB API
-└── tmdb.ts                  ← TMDB API integration
+  client.ts
+  endpoints.ts
+  tmdb.ts
+  user.ts
 
-components/
-├── AuthInput.tsx            ← Auth form input component
-└── Button.tsx               ← Reusable button with loading state
+store/
+  authStore.ts
+  movieStore.ts
 
-hooks/
-├── useAuth.ts               ← Custom hook untuk auth
-└── useMovies.ts             ← Custom hook untuk movies
+types/
+  auth.ts
+  movie.ts
+  profile.ts
+
+utils/
+  validators/
 ```
 
----
+## Konsep Kunci Yang Dipakai
 
-## 🔑 Key Concepts Yang Harus Dipahami
+### 1) Routing dan Navigation (Expo Router)
 
-### 1. **Routing & Navigation** (Expo Router)
+- Root layout menentukan user masuk ke auth flow atau app flow.
+- Group `(tabs)` dipakai untuk bottom tab.
+- Route dinamis dipakai untuk detail movie: `movie/[id]`.
 
-- **Root Layout** (`app/_layout.tsx`): Entry point, decide apakah user lihat auth atau app
-- **Stack vs Tabs**:
-  - Stack = layering screens (bisa push/pop)
-  - Tabs = navigation dengan tab di bottom
-- **Conditional Rendering**: Render auth atau tabs berdasarkan `isAuthenticated`
+### 2) State Management (Zustand)
 
-### 2. **State Management** (Zustand)
+- `authStore`: state login/register/logout sederhana.
+- `movieStore`: trending, search, detail, favorite, pagination.
+- Komponen mengambil state langsung dari store.
 
-- **Lightweight & Simple**: Lebih ringan dari Redux/Context
-- **Persist**: Auto save ke AsyncStorage pake middleware
-- **Custom Store Pattern**:
-  ```tsx
-  // Create store
-  export const useMovieStore = create((set) => ({...}));
-  // Use in component
-  const { movies, fetchMovies } = useMovieStore();
-  ```
+### 3) API Layer Separation
 
-### 3. **Authentication Flow**
+- `api/endpoints.ts`: daftar endpoint.
+- `api/client.ts`: request generic + method GET/POST/PUT/PATCH/DELETE.
+- `api/tmdb.ts`: fungsi domain movie (trending, detail, videos, search).
 
-```
-User opens app
-  ↓
-Check isAuthenticated in Zustand store
-  ↓
-False → Show auth layout (login/register)
-  ↓
-User login → Update store isAuthenticated = true
-  ↓
-Re-render root layout → Show app (tabs)
-  ↓
-User logout → Update store → Show auth kembali
-```
+### 4) Styling (NativeWind)
 
-### 4. **API Integration**
+- Utility-first styling pakai className.
+- Fokus ke konsistensi layout dan spacing.
 
-- TMDB API functions di `api/tmdb.ts`
-- Type-safe dengan TypeScript types
-- Error handling built-in
-- Parameterized functions (page, search query, dll)
+## Feature Checklist
 
-### 5. **Styling dengan NativeWind**
+- [x] Login dan register screen
+- [x] Bottom tab navigation
+- [x] Home trending movies
+- [x] Infinite scroll pagination
+- [x] Search movies
+- [x] Favorite movies
+- [x] Movie detail
+- [x] Trailer URL launcher
 
-- Tailwind CSS untuk React Native
-- Utility-first approach
-- Responsive design bawaan
+## Cara Menjalankan Project
 
----
-
-## 🚀 Next Steps - Lanjut Belajar
-
-### Step 1: Setup TMDB API Key
-
-1. Pergi ke https://www.themoviedb.org/settings/api
-2. Register atau login
-3. Create API key
-4. Paste ke `.env`:
-   ```
-   EXPO_PUBLIC_TMDB_API_KEY=your_actual_api_key_here
-   ```
-5. Restart dev server: `npx expo start -c`
-
-### Step 2: Test Authentication
-
-```tsx
-// Buka Login Screen
-// Test credentials sudah ada di screen (demo@example.com / password)
-// Coba login → akan pindah ke app (tabs)
-// Coba logout dari profile tab → back ke auth
-```
-
-### Step 3: Fetch Real Movies Data
-
-Login screen sudah working, tapi movies masih placeholder. Kamu perlu:
-
-1. Ganti login/register validation ke real backend (atau mock API lebih advanced)
-2. Test `fetchTrendingMovies()` di home screen
-3. Lihat console untuk API responses
-
-### Step 4: Build Movie Features
-
-**Movie Detail Screen** (belum dibuat):
-
-- Buat `app/movie/[id].tsx`
-- Fetch movie detail pake `getMovieDetail(movieId)`
-- Show cast, rating, budget, dll
-- Add to favorites button
-
-**Advanced Search**:
-
-- Filter by genre (gunakan `getMoviesByGenre()`)
-- Sort by rating/popularity
-- Pagination
-
-### Step 5: UI Polish
-
-Kamu pakai NativeWind, jadi:
-
-- Install Tailwind VSCode extension untuk autocomplete
-- Gunakan utility classes: `className="flex justify-center items-center"`
-- Responsive design: `className="w-full md:w-1/2"`
-- Dark mode support
-
----
-
-## 🎓 Learning Resources
-
-### Zustand Best Practices
-
-```tsx
-// ✅ GOOD: Destructure yang dibutuhkan
-const { movies, fetchMovies } = useMovieStore();
-
-// ❌ AVOID: Subscribe seluruh store
-const store = useMovieStore();
-```
-
-### Async Error Handling
-
-```tsx
-// API function auto throw error
-try {
-  await fetchMovies();
-} catch (error) {
-  // Handle error - sudah di-store dari Zustand
-}
-```
-
-### Navigation Tips
-
-```tsx
-// Use useRouter untuk navigate
-const router = useRouter();
-
-// Navigate to screen
-router.push('/search');
-
-// Go back
-router.back();
-
-// Replace (tidak bisa go back)
-router.replace('/home');
-```
-
----
-
-## 🛠️ Development Workflow
-
-**Start Dev Server**:
+1. Install dependency:
 
 ```bash
-npx expo start -c  # -c = clear cache
+npm install
 ```
 
-**Test on Android**:
+2. Isi environment variable di `.env`:
 
-- Press 'a' di terminal
-- Atau buka di Android emulator
+```env
+EXPO_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+EXPO_PUBLIC_TMDB_BASE_URL=https://api.themoviedb.org/3
+EXPO_PUBLIC_TMDB_IMAGE_URL=https://image.tmdb.org/t/p/w500
+```
 
-**Test on iOS**:
+3. Jalankan app:
 
-- Press 'i' di terminal
+```bash
+npx expo start -c
+```
 
-**Hot Reload**:
+## Learning Path yang Direkomendasikan
 
-- Automatic saat save file
-- Atau manual: press 'r' di terminal
+1. Pelajari dulu navigation flow di `app/_layout.tsx`.
+2. Pahami state shape pada `store/authStore.ts` dan `store/movieStore.ts`.
+3. Ikuti alur request movie dari `app/(tabs)/home.tsx` ke `api/tmdb.ts`.
+4. Latihan ubah UI menggunakan NativeWind classes.
+5. Tambah satu fitur baru mandiri (contoh: watchlist atau filter genre).
 
----
+## Common Pitfalls
 
-## 📋 Checklist untuk Deep Learning
+### NativeWind style tidak ter-apply
 
-- [ ] Pahami routing logic di `app/_layout.tsx`
-- [ ] Pahami Zustand store structure
-- [ ] Test auth flow (login → app → logout)
-- [ ] Setup TMDB API key
-- [ ] Fetch real data & verify console logs
-- [ ] Buat movie detail screen
-- [ ] Add more filters & search options
-- [ ] Polish UI with NativeWind
-- [ ] Test all navigation flows
+- Restart bundler dengan cache clear: `npx expo start -c`.
+- Pastikan config Babel/Tailwind benar.
 
----
+### Data movie tidak muncul
 
-## 💡 Common Issues & Solutions
+- Cek API key TMDB di `.env`.
+- Cek request error di console.
 
-**Q: Lanjut-lanjut styling NativeWind tidak work?**
-A: Clear cache: `npx expo start -c` dan restart
+### Route tidak berpindah setelah auth
 
-**Q: API returns error?**
-A: Check API key di `.env` dan network connection
+- Cek `isAuthenticated` pada auth store.
+- Cek conditional rendering di root layout.
 
-**Q: favorites tidak persist?**
-A: Zustand auto persist ke AsyncStorage, check react-native-async-storage installed
+## Next Challenge
 
-**Q: Navigation stuck?**
-A: Check `isAuthenticated` state di auth store
-
----
-
-## 🎯 Final Tips
-
-1. **Read the docs**: Expo Router & Zustand docs sangat helpful
-2. **Test often**: Jangan code banyak baru test
-3. **Type everything**: TypeScript bisa prevent bugs
-4. **Modularize**: Buat components reusable
-5. **Error handling**: Always handle errors gracefully
-
-Semangat belajar! 🚀
+- Tambahkan skeleton loading untuk home dan detail.
+- Tambahkan retry action saat API error.
+- Tambahkan test untuk validator dan store action.
+- Dokumentasikan screenshot/GIF flow di README.
