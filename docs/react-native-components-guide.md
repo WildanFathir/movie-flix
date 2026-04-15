@@ -1,137 +1,101 @@
-# React Native Components Guide (Dengan Analoginya di Web)
+# React Native Components Guide
 
-Dokumen ini dibuat biar kamu cepat paham komponen bawaan React Native, terutama kenapa beda dari tag HTML.
+Panduan ringkas untuk memahami komponen React Native yang paling sering dipakai di project ini.
 
-## 1) Mindset Dasar: React Native Bukan HTML
+## 1. Mindset Dasar
 
-Di web, browser paham tag seperti div, p, img, button.
-Di React Native, kamu render komponen native iOS/Android, jadi tag HTML tidak dipakai.
+React Native bukan HTML di browser.
 
-Ibaratnya:
+- Web: UI dirender dengan elemen HTML.
+- React Native: UI dirender ke komponen native iOS/Android.
 
-- Web = browser membaca HTML + CSS
-- React Native = JavaScript memerintah UI native lewat komponen React Native
+Karena itu, komponen seperti `View` dan `Text` menjadi fondasi utama.
 
-Makanya yang dipakai adalah View, Text, Image, FlatList, dan lain-lain.
+## 2. Komponen Inti dan Analogi Web
 
-## 2) Komponen Dasar dan Analogi Web
+### View
 
-## View
+- Fungsi: container/layout.
+- Analogi web: div.
 
-- Kegunaan: container/layout utama
-- Analogi web: div
-- Catatan: semua layout hampir selalu dibungkus View
+### Text
 
-## Text
+- Fungsi: menampilkan teks.
+- Analogi web: p/span/h1-h6.
+- Catatan: teks wajib dibungkus `Text`.
 
-- Kegunaan: menampilkan teks
-- Analogi web: p, span, h1-h6 (tergantung styling)
-- Catatan penting: teks harus dibungkus Text, tidak bisa plain text langsung seperti di HTML
+### Image
 
-## Image
+- Fungsi: menampilkan gambar.
+- Analogi web: img.
 
-- Kegunaan: menampilkan gambar
-- Analogi web: img
-- Catatan: source pakai object, misal source={{ uri: '...' }}
+### TextInput
 
-## TextInput
+- Fungsi: input teks.
+- Analogi web: input/textarea.
 
-- Kegunaan: input teks
-- Analogi web: input, textarea
-- Catatan: pakai value + onChangeText (controlled input)
+### Pressable atau TouchableOpacity
 
-## Pressable / TouchableOpacity
+- Fungsi: elemen interaktif untuk klik/tap.
+- Analogi web: button atau a.
 
-- Kegunaan: area yang bisa ditekan
-- Analogi web: button, a
-- Catatan: di React Native tidak ada hover seperti web desktop secara default
+### ScrollView
 
-## ScrollView
+- Fungsi: konten scroll untuk item sedikit/sederhana.
+- Analogi web: container dengan overflow scroll.
 
-- Kegunaan: konten yang bisa di-scroll
-- Analogi web: div dengan overflow: auto
-- Catatan: render semua item sekaligus, cocok untuk list kecil
+### FlatList
 
-## FlatList
+- Fungsi: list data panjang dengan performa lebih baik.
+- Analogi web: map list + virtualization.
 
-- Kegunaan: render list panjang secara efisien
-- Analogi web: map array, tapi dengan virtualized rendering
-- Catatan penting: ini pengganti map biasa untuk data banyak
+### SectionList
 
-## SectionList
+- Fungsi: list dengan grup section.
 
-- Kegunaan: list dengan grup section
-- Analogi web: list yang dikelompokkan per kategori
+### ActivityIndicator
 
-## SafeAreaView
+- Fungsi: indikator loading.
 
-- Kegunaan: menghindari notch/status bar area
-- Analogi web: tidak ada padanan langsung, lebih ke layout helper mobile
+## 3. Kenapa FlatList Penting
 
-## Modal
+`FlatList` hanya merender item yang terlihat di layar + sedikit buffer.
 
-- Kegunaan: pop up layer di atas konten utama
-- Analogi web: modal/dialog
+Keuntungan:
 
-## ActivityIndicator
+- Lebih hemat memori.
+- Scroll lebih smooth.
+- Cocok untuk data API yang bisa panjang.
 
-- Kegunaan: loading spinner
-- Analogi web: spinner/loading icon
+Di project ini, home screen menggunakan `FlatList` + infinite scroll, jadi ini contoh real penggunaan yang benar.
 
-## Switch
+## 4. Props FlatList Yang Wajib Dipahami
 
-- Kegunaan: toggle on/off
-- Analogi web: checkbox toggle
+### data
 
-## 3) FlatList: Kenapa Penting?
+Array item yang akan dirender.
 
-Ini jawaban inti pertanyaan kamu.
+### renderItem
 
-FlatList dipakai untuk list data yang bisa banyak, misalnya movie list.
-Alasan pakai FlatList:
+Function untuk render satu item.
 
-- Lebih hemat memori
-- Lebih smooth
-- Hanya render item yang terlihat di layar (virtualization)
+### keyExtractor
 
-Kalau kamu pakai ScrollView + map untuk 1000 item:
+Function untuk key unik, biasanya id.
 
-- Semua item dirender sekaligus
-- Berat
-- Potensi lag
-
-Kalau pakai FlatList:
-
-- Yang dirender cuma item terlihat + buffer
-- Jauh lebih ringan
-
-## 4) Props FlatList yang Sering Dipakai
-
-## data
-
-Array data yang mau ditampilkan.
-
-## renderItem
-
-Function untuk render 1 item.
-
-## keyExtractor
-
-Kasih key unik untuk setiap item.
-
-## ListEmptyComponent
+### ListEmptyComponent
 
 UI saat data kosong.
 
-## refreshControl / onRefresh / refreshing
+### refreshControl
 
-Untuk pull-to-refresh.
+Mendukung pull-to-refresh.
 
-## onEndReached
+### onEndReached
 
-Trigger saat hampir ke bawah list, biasa untuk pagination/infinite scroll.
+Dipakai untuk pagination/load more.
 
-## 5) Contoh FlatList Sederhana
+## 5. Contoh FlatList Sederhana
 
 ```tsx
 <FlatList
@@ -146,43 +110,37 @@ Trigger saat hampir ke bawah list, biasa untuk pagination/infinite scroll.
 />
 ```
 
-## 6) Kapan Pakai Apa? (Cheat Sheet)
+## 6. Kapan Pakai ScrollView vs FlatList
 
-- List kecil (5-20 item statis): ScrollView + map boleh
-- List dinamis banyak item: FlatList
-- List berkelompok kategori: SectionList
-- Konten form panjang: ScrollView
-- Tombol custom: Pressable atau TouchableOpacity
+- ScrollView: konten statis, item sedikit.
+- FlatList: list dinamis dari API, item banyak.
+- SectionList: list berkelompok (misal per genre/tanggal).
 
-## 7) Mapping Cepat Web ke React Native
+## 7. Mapping Cepat Web ke React Native
 
 - div -> View
-- p/span/h\* -> Text
+- p/span/h1 -> Text
 - img -> Image
 - input -> TextInput
 - button -> Pressable atau TouchableOpacity
-- ul/li (list) -> FlatList renderItem
-- modal -> Modal
+- ul/li -> FlatList + renderItem
 
-## 8) Tips Belajar Biar Cepat Paham
+## 8. Relevansi Ke Project Ini
 
-- Fokus dulu 6 komponen inti: View, Text, Image, TextInput, Pressable, FlatList
-- Setiap bikin screen, mulai dari struktur:
-  1. Wrapper View
-  2. Header Text
-  3. Content (FlatList/ScrollView)
-  4. Action Button
-- Cek dokumentasi resmi saat ragu props:
+Contoh penggunaan komponen di project:
+
+- Home: `FlatList`, `RefreshControl`, `ActivityIndicator`.
+- Search: input query + list result.
+- Detail: `ScrollView`, `Image`, tombol favorite, trailer launcher.
+- Auth: `TextInput` dan tombol action.
+
+## 9. Latihan Praktik
+
+1. Tambahkan loading skeleton di Home.
+2. Tambahkan empty state yang lebih informatif di Search.
+3. Tambahkan section recommendation di detail (pakai list horizontal).
+
+## 10. Referensi Resmi
+
+- React Native Components and APIs:
   https://reactnative.dev/docs/components-and-apis
-
-## 9) Relevansi ke Project Kamu
-
-Di Home screen kamu sekarang, FlatList sudah tepat karena data movie bisa panjang.
-Nanti kalau tambah pagination (load more), FlatList akan makin terasa manfaatnya.
-
----
-
-Kalau kamu mau, next step saya bisa buatkan versi lanjutan:
-
-- FlatList advanced (pagination + skeleton loading + error state)
-- Perbandingan performa ScrollView vs FlatList langsung di project kamu
