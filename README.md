@@ -22,27 +22,7 @@ This repository is my playground to learn core React Native concepts in a real p
 
 ## App Screenshots and GIF Preview
 
-Section ini sudah disiapkan untuk preview GitHub. Tinggal tambahkan file screenshot/GIF kamu, lalu replace nama file di bawah.
-
-Suggested folder:
-
-```text
-docs/media/
-   login.png
-   home.png
-   search.png
-   detail.png
-   app-flow.gif
-```
-
-Template yang bisa langsung dipakai:
-
-```md
-## App Screenshots and GIF Preview
-
-<p align="center">
-   <img src="docs/media/app-flow.gif" alt="App Flow" width="280" />
-</p>
+Preview screenshot yang aktif saat ini:
 
 | Login                            | Home                           |
 | -------------------------------- | ------------------------------ |
@@ -51,9 +31,8 @@ Template yang bisa langsung dipakai:
 | Search                             | Detail                             |
 | ---------------------------------- | ---------------------------------- |
 | ![Search](assets/media/search.jpg) | ![Detail](assets/media/detail.jpg) |
-```
 
-Contoh placeholder saat ini:
+Jika nanti kamu punya GIF flow app, simpan misalnya di `assets/media/app-flow.gif`, lalu tambahkan:
 
 <p align="center">
    <img src="assets/images/splash-icon.png" alt="Placeholder Preview" width="120" />
