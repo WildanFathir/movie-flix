@@ -1,22 +1,17 @@
-/**
- * Favorites Screen
- * Menampilkan daftar film favorit user
- */
-
-import { useMovies } from '@/hooks/useMovies';
+import MovieList from '@/components/MovieList';
+import { useMovieStore } from '@/store/movieStore';
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 
 const FavoritesScreen = () => {
-  const { favorites, removeFavorite } = useMovies();
+  const { favorites } = useMovieStore();
 
   return (
     <View className="flex-1 bg-white">
       {favorites.length === 0 ? (
-        <View className="flex-1 justify-center items-center">
-          <Ionicons name="heart-outline" size={64} color="#D1D5DB" />
-          <Text className="text-gray-500 mt-4 text-center">
+        <View className="items-center justify-center flex-1">
+          <Ionicons name="heart" size={64} color="#D1D5DB" />
+          <Text className="mt-4 text-center text-gray-500">
             Belum ada film favorit{'\n'}Tambahkan film yang kamu sukai!
           </Text>
         </View>
@@ -24,19 +19,7 @@ const FavoritesScreen = () => {
         <FlatList
           data={favorites}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View className="p-4 border-b border-gray-200 flex-row justify-between items-center">
-              <View className="flex-1">
-                <Text className="font-bold text-lg">{item.title}</Text>
-                <Text className="text-gray-600 text-sm mt-1">
-                  Rating: {item.vote_average.toFixed(1)}/10
-                </Text>
-              </View>
-              <TouchableOpacity onPress={() => removeFavorite(item.id)} className="ml-2 p-2">
-                <Ionicons name="close-circle" size={28} color="#EF4444" />
-              </TouchableOpacity>
-            </View>
-          )}
+          renderItem={({ item }) => <MovieList movies={item} withRemoveButton />}
         />
       )}
     </View>
