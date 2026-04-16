@@ -1,6 +1,6 @@
 export const DEMO_USERS = {
-  'demo@example.com': { password: 'password', name: 'Demo User' },
-  'test@example.com': { password: 'test123', name: 'Test User' },
+  'demo@gmail.com': { password: 'password', name: 'Demo User' },
+  'test@gmail.com': { password: 'test123', name: 'Test User' },
 };
 
 export function getDemoUserByCredentials(email: string, password: string) {
