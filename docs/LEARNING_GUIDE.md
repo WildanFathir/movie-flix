@@ -144,3 +144,8 @@ npx expo start -c
 - Tambahkan retry action saat API error.
 - Tambahkan test untuk validator dan store action.
 - Dokumentasikan screenshot/GIF flow di README.
+
+## Referensi Tambahan
+
+- [Zustand State Management Guide](./zustand-state-management-guide.md)
+- [React Hooks Guide](./react-hooks-guide.md)
